@@ -1,5 +1,9 @@
-class Playerwords < ActiveRecord::Base
-    has_many :players
-    has_many :words
 
+class CreatePlayerwords < ActiveRecord::Migration[5.0]
+    def change
+        create_table :playerwords do |t|
+            t.string :player
+            t.string :word
+        end
+    end
 end
