@@ -1,22 +1,24 @@
 require 'pry'
+require_relative './Hangman.rb'
 
 class Hangman
 
 
     attr_accessor :username
-    attr_reader :secretword, :alpha, :random_word
+    attr_reader :secret_word, :alpha, :random_word
 
     def initialize
         @alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-        @secretword = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "commit", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
-        @attempts = 10
-        @random_word = secretword.sample
-        @correct_letters = []
+        @secret_word = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "comes", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
+        @dashes = ["-","-","-","-","-"]
+        @attempts = 0
+        # @random_word = @secret_word.sample.split("")
+        @random_word = ['b','i','r','t','h']
+        #@correct_letters = []
         @wrong_guesses = []
         @guessed_letters = []
         @count = 0
     end
-
 
     def start
             puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -31,7 +33,7 @@ class Hangman
             puts "*****************************"
 
             puts "Here's the word:"
-            puts "_ _ _ _ _"
+            puts @dashes.join(" ")
             puts "==============================="
 
             puts "Start by guessing the word with one letter at a time and click enter"
@@ -40,13 +42,14 @@ class Hangman
     end
 
     def guessing_letters
-        letter = gets.chomp.downcase #gets always returns a string
-        index = 0
-        while index < @random_word.length do
-
-            
+         #gets always returns a string
+        # index = 0
+        while @attempts < 10 do
+            @attempts += 1
+            #binding.pry
+            letter = gets.chomp.downcase
             if !@alpha.include?(letter)
-                puts "#{letter.upcase} is not valid!"
+                puts "#{letter} is not valid!"
             else 
                 if letter.length > 1
                     puts "please only enter one letter in the alphabet"
@@ -54,12 +57,30 @@ class Hangman
                     if @guessed_letters.include?(letter)
                         puts "#{letter.upcase} has already been guessed!"
                     else
+                        #binding.pry
                         @guessed_letters << letter
-                        if @random_word.include?(letter)
-                            binding.pry
-                        else
-
+                        #@wrong_guesses << letter
                         
+                        if @random_word.include?(letter)
+                            @random_word.each.with_index do |char, index|
+                                if char == letter
+                                    #binding.pry
+                                    @dashes[index] = char
+                                    # puts @dashes
+                                    #put well done message
+                                end
+                                if !@dashes.include?("-")
+                                    return "You Won Hangman!"
+                                end
+                            end
+                            # binding.pry
+                            #this is where i update the board based on proper guess
+                            
+                        
+                        
+                        else
+                            wrong_guess(letter) #counter dependent on hangman
+                            
                         end
 
                     end
@@ -67,13 +88,19 @@ class Hangman
                         
                 end
             end
-            index += 1
+            puts "#{@dashes} "
+            # index += 1
         end
 
     end
 
-    def wrong_guess
+    def wrong_guess(letter)
+        @wrong_guesses << letter
         puts "Wrong Guess!"
+        puts "#{@wrong_guesses}"
+        Hangman.shape[@count]
+        @count += 1
+        #display @hangmanarray so they can see wrong guess
 
     end
     # def guessing_letters
@@ -117,4 +144,5 @@ end
 
 hang = Hangman.new
 hang.start
-hang.guessing_letters
+game = hang.guessing_letters
+puts "done"
