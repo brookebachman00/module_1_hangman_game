@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "playerwords", force: :cascade do |t|
-    t.string "player"
-    t.string "word"
+    t.string "player_id"
+    t.string "word_id"
   end
 
   create_table "words", force: :cascade do |t|

@@ -10,5 +10,5 @@ player5 = Player.create(name: "EEEEE")
  
     arr = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "commit", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
     arr.each do |ele|
-        word = Word.create(words: ele)
+        word = Word.create(word: ele)
     end

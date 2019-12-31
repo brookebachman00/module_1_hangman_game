@@ -1,7 +1,11 @@
 require 'pry'
 require_relative './Hangman.rb'
+require_relative '../../config/environment'
 
-class HangmanGame
+# require_relative './Word.rb'
+
+
+class HangmanGame 
 
     attr_accessor :username
     attr_reader :secret_word, :alpha, :random_word
@@ -12,7 +16,10 @@ class HangmanGame
         @dashes = ["-","-","-","-","-"]
         @attempts = 0
         # @random_word = @secret_word.sample.split("")
-        # @random_word = ['b','i','r','t','h']
+        # binding.pry
+        random = Word.all.sample.word
+        @random_word = random.split("")
+        #puts "#{@random_word}" this is for testing purposes
         @wrong_guesses = []
         @guessed_letters = []
         @count = 0
