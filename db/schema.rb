@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 3) do
 
   create_table "players", force: :cascade do |t|
-    t.string  "name"
+    t.string "name"
     t.integer "score"
   end
 
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "words", force: :cascade do |t|
-    t.string  "word"
+    t.string "word"
     t.integer "score"
   end
 
