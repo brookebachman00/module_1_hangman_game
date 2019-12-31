@@ -1,7 +1,7 @@
 #A class that holds the hangman in stages
 class Hangman
     @@shape = ["
-+---+
+    +---+
     |   |
         |
         |
@@ -50,6 +50,7 @@ class Hangman
    /|\\  |
    / \\  |
         |
+  ========= 
   "]
 
     def self.shape
