@@ -1,8 +1,10 @@
+require 'pry'
+
 class Hangman
 
 
     attr_accessor :username
-    attr_reader :secretword, :alpha
+    attr_reader :secretword, :alpha, :random_word
 
     def initialize
         @alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -37,49 +39,82 @@ class Hangman
 
     end
 
-
     def guessing_letters
-        
-        letter = gets.chomp.to_s.downcase
-        
-        if @alpha.include?(letter)
-            guessing_letters
-        elsif puts "#{letter.upcase} is not valid!"
-            guessing_letters
+        letter = gets.chomp.downcase #gets always returns a string
+        index = 0
+        while index < @random_word.length do
 
-        if letter.length = 1
-             guessing_letters
-        elsif puts "please only enter one letter in the alphabet"
-             guessing_letters
-
-        if @guessed_letters.include?(letter)
-           puts "#{letter.upcase} has already been guessed!"
-        else
-           @guessed_letters << letter
-
-       
-        if  @random_word.include?(letter)
-          puts "#{letter.capitalize} was found! Well done! You are getting Closer!"
-          @correct_letters << letter
-          
-        else puts "#{letter.capitalize} was not found! Keep trying!"
-            @wrong_guesses << letter
-            @count += 1
-            Hangman.shape[@count]
             
-              end
+            if !@alpha.include?(letter)
+                puts "#{letter.upcase} is not valid!"
+            else 
+                if letter.length > 1
+                    puts "please only enter one letter in the alphabet"
+                else 
+                    if @guessed_letters.include?(letter)
+                        puts "#{letter.upcase} has already been guessed!"
+                    else
+                        @guessed_letters << letter
+                        if @random_word.include?(letter)
+                            binding.pry
+                        else
+
+                        
+                        end
+
+                    end
+                        
+                        
+                end
             end
-           end
-           guessing_letters
+            index += 1
         end
 
+    end
 
+    def wrong_guess
+        puts "Wrong Guess!"
 
+    end
+    # def guessing_letters
+    #     letter = gets.chomp.to_s.downcase
+        # if @alpha.include?(letter)
+        #     #guessing_letters
+        # elsif puts "#{letter.upcase} is not valid!"
+        #     guessing_letters
+
+        #     if letter.length = 1
+        #         guessing_letters
+        #     elsif puts "please only enter one letter in the alphabet"
+        #         guessing_letters
+
+        #         if @guessed_letters.include?(letter)
+        #             puts "#{letter.upcase} has already been guessed!"
+        #         else
+        #             @guessed_letters << letter
+
+        #             if  @random_word.include?(letter)
+        #                 puts "#{letter.capitalize} was found! Well done! You are getting Closer!"
+        #                 @correct_letters << letter
+          
+        #             else 
+        #                  puts "#{letter.capitalize} was not found! Keep trying!"
+                            
+        #                 @wrong_guesses << letter
+        #                 @count += 1
+        #                 Hangman.shape[@count]
+        #                 binding.pry
+            
+    #           end
+    #         end
+    #        end
+    #        guessing_letters
+    #     end
+    # end
 
 end
 
 
-
 hang = Hangman.new
 hang.start
-guessing_letters
+hang.guessing_letters
