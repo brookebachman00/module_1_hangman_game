@@ -60,6 +60,8 @@ class HangmanGame
             puts @dashes.join(" ")
             
             puts "==============================="
+            puts "If you need to exit the game at any given time please enter".blue + " exit".red
+            puts "==============================="
             puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word".blue
             guessing_letters
     end
@@ -118,6 +120,9 @@ class HangmanGame
         while @attempts < 10 do  
             Player.last.words << Word.find_by(word: @random_word.join(""))
             letter = gets.chomp.downcase
+            if letter == 'exit'
+                    abort
+            end
             if !validation?(letter) && !is_guessed?(letter)
                 right_guess(letter)
             end
@@ -145,7 +150,7 @@ class HangmanGame
         if !@dashes.include?("-")
             puts "#{@dashes.join("")}".upcase.bold.underline
             update_player
-            puts "Good job ".green.bold + Player.last.name + ", You Won Hangman!".green.bold
+            puts "Good job ".green.bold + Player.last.name + ", You Won Hangman!".green.bold.blink
             puts " Your total score is #{Player.last.score}".brown
             puts "/ᐠ｡ꞈ｡ᐟ\\"
             return true
@@ -215,6 +220,7 @@ class HangmanGame
         name = Player.find_by(score: score).name
         puts "#{name.upcase} you have the highest score among #{Player.all.count} players.".magenta
     end
+
 end
 
 
