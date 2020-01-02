@@ -29,7 +29,7 @@ require 'bundler/setup'
 require 'sinatra/activerecord'
 Bundler.require
 Dir[File.join(File.dirname(__FILE__), '../app/models', '*.rb')].each { |f| 
-puts "Importing file: #{f}"
+# puts "Importing file: #{f}"
 require f 
 }
 connection_details = YAML.safe_load(File.open('config/database.yml'))
