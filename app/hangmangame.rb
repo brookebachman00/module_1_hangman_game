@@ -151,7 +151,7 @@ class HangmanGame
         puts Hangman.shape[@count]          #Call for Hangman model
         @count += 1
         if @count >= 7
-            puts "Better luck next time, " + Player.last.name
+            puts "Better luck next time, " + Player.last.name + ". Its '#{@random_word.join("")}'"
             play_again
         end
     end
@@ -192,7 +192,7 @@ class HangmanGame
     end
 
 
-#no word repeat
+#Check if the player's name already exists in database
     def old_player
         words = []
         player = Player.find_by(name: @username)
@@ -207,13 +207,23 @@ class HangmanGame
         end
         words
     end
+
+#Find the player with highest score
+    def top_player
+        score = Player.maximum('score')
+        name = Player.find_by(score: score).name
+        puts "#{name.upcase} you have the highest score among #{Player.all.count} players."
+    end
 end
 
 
 
 hang = HangmanGame.new
-hang.start
+# hang.start
 
 #Players count
 total = hang.game_players
-#puts "Hangman players - #{total}"
+puts "Hangman players - #{total}"
+
+#Player with highest score
+hang.top_player

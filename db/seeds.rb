@@ -13,4 +13,3 @@ arr.each do |ele|
     word = Word.create(word: ele)
 end
 word = Word.create(word: "fixes")
-# playerword1 = Playerword.create(player_id: player1,word_id: word)
