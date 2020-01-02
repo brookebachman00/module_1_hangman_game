@@ -12,14 +12,16 @@
 
 ActiveRecord::Schema.define(version: 3) do
 
+  create_table "player_words", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "word_id"
+    t.index ["player_id"], name: "index_player_words_on_player_id"
+    t.index ["word_id"], name: "index_player_words_on_word_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.integer "score", default: 0
-  end
-
-  create_table "playerwords", force: :cascade do |t|
-    t.string "player_id"
-    t.string "word_id"
   end
 
   create_table "words", force: :cascade do |t|

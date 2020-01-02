@@ -17,6 +17,7 @@ class HangmanGame
         @wrong_guesses = []
         @guessed_letters = []
         @count = 0
+        @guessed_count = 0
     end
 
     def start
@@ -28,6 +29,7 @@ class HangmanGame
             puts "********************************"
             puts 'Enter a username:'
             @username = gets.chomp
+            enter_usermane
             Player.create(name: @username)
             puts "********************************"
 
@@ -38,9 +40,19 @@ class HangmanGame
             puts @dashes.join(" ")
             
             puts "==============================="
-
+            # binding.pry
             puts "Start by guessing the word with one letter at a time and click enter"
             guessing_letters
+    end
+
+#Check for player's name
+    def enter_usermane
+        while @username.length == 0 do
+            puts "!!!!!!!!!!!!You need to enter a Username!!!!!!!!!!!!"
+            puts "   "
+            puts 'Enter a username:'
+                @username = gets.chomp
+        end
     end
 
 #Check if the input given by player is a letter (check for alphabet and its length)
@@ -59,6 +71,7 @@ class HangmanGame
     def is_guessed?(letter)
         if @guessed_letters.include?(letter)
             puts "#{letter.upcase} has already been guessed!"
+            @guessed_count += 1
             return true
         else
             return false
@@ -71,7 +84,7 @@ class HangmanGame
         if @random_word.include?(letter)    #if the player makes a right guess
             @random_word.each.with_index do |char, index|
                 if char == letter
-                        @dashes[index] = char
+                    @dashes[index] = char
                 end
             end
         else
@@ -79,9 +92,11 @@ class HangmanGame
         end           
     end
 
-
     def guessing_letters
         while @attempts < 10 do  
+
+            Player.last.words << Word.find_by(word: @random_word.join(""))
+            binding.pry
             letter = gets.chomp.downcase
             if !validation?(letter) && !is_guessed?(letter)
                 right_guess(letter)
@@ -92,6 +107,12 @@ class HangmanGame
             else
                 @attempts += 1
             end
+            # if is_guessed?(letter) && @guessed_count >= 15
+            #     binding.pry
+            #     puts "Better luck next time, " + Player.last.name
+            #     play_again
+            # end
+        
         end
     end
 
@@ -100,6 +121,7 @@ class HangmanGame
         if !@dashes.include?("-")
             puts "#{@dashes.join("")}"
             update_player
+            # binding.pry
             # update_word
             puts "Good job " + Player.last.name + ", You Won Hangman!"
             puts " Your score = #{Player.last.score}"
@@ -109,44 +131,7 @@ class HangmanGame
         return false
     end
 
-    # def guessing_letters
-
-    #     while @attempts < 10 do
-    #         @attempts += 1
-    #         letter = gets.chomp.downcase
-    #         if !@alpha.include?(letter)
-    #             puts "#{letter} is not valid!"
-    #         else 
-    #             if letter.length > 1
-    #                 puts "please only enter one letter in the alphabet"
-    #             else 
-    #                 if @guessed_letters.include?(letter)
-    #                     puts "#{letter.upcase} has already been guessed!"
-    #                 else
-    #                     @guessed_letters << letter
-    #                     if @random_word.include?(letter)
-    #                         @random_word.each.with_index do |char, index|
-    #                             if char == letter
-    #                                  @dashes[index] = char
-    #                             end
-    #                         end
-    #                     else
-    #                         wrong_guess(letter) #counter dependent on hangman
-    #                     end
-                    
-    #                 end
-    #             end
-    #         end
-    #         puts "#{@dashes} "
-    #         if !@dashes.include?("-")
-    #             puts "You Won Hangman!"
-    #             puts "/ᐠ｡ꞈ｡ᐟ\\"
-    #             puts "#{@dashes}"
-    #             break
-                
-    #         end
-    #     end
-    # end
+    
 #If the player makes a wrong guess
     def wrong_guess(letter)
         @wrong_guesses << letter
@@ -180,7 +165,8 @@ class HangmanGame
 
 #Update word -> score
     def update_word
-        word = Word.find_by(word: @random.join(""))
+        binging.pry
+        word = Word.find_by(word: @random_word.join(""))
         if word.score == 0
             word.score += 10
             word.save
