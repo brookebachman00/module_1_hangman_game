@@ -8,7 +8,9 @@ player5 = Player.create(name: "EEEEE")
 
 
  
-    arr = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "commit", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
-    arr.each do |ele|
-        word = Word.create(word: ele)
-    end
+arr = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "comes", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
+arr.each do |ele|
+    word = Word.create(word: ele)
+end
+word = Word.create(word: "fixes")
+# playerword1 = Playerword.create(player_id: player1,word_id: word)

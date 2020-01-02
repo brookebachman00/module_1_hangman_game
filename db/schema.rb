@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 3) do
 
   create_table "players", force: :cascade do |t|
     t.string "name"
-    t.integer "score"
+    t.integer "score", default: 0
   end
 
   create_table "playerwords", force: :cascade do |t|
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 3) do
 
   create_table "words", force: :cascade do |t|
     t.string "word"
-    t.integer "score"
+    t.integer "score", default: 0
   end
 
 end
