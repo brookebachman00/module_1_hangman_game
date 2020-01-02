@@ -11,13 +11,25 @@ class HangmanGame
         #@secret_word = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "comes", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
         @dashes = ["-","-","-","-","-"]
         @attempts = 0
-        random = Word.all.sample.word
-        @random_word = random.split("")
-        puts "#{@random_word}" #this is for testing purposes
+        # random = Word.all.sample.word
+        # @random_word = random.split("")
+        # puts "#{@random_word}" #this is for testing purposes
         @wrong_guesses = []
         @guessed_letters = []
         @count = 0
         @guessed_count = 0
+    end
+
+    def random_word
+        word_list = old_player
+        random = Word.all.sample.word
+        # binding.pry
+        @random_word = random.split("")
+        if word_list.length > 0
+            while word_list.include?(@random_word.join("")) do
+                @random_word = Word.all.sample.word.split("")
+            end
+        end
     end
 
     def start
@@ -29,8 +41,12 @@ class HangmanGame
             puts "********************************"
             puts 'Enter a username:'
             @username = gets.chomp
+            # binding.pry
             enter_usermane
-            Player.create(name: @username)
+            # binding.pry
+            random_word
+            # puts @random_word
+            # binding.pry
             puts "********************************"
 
             puts "            "
@@ -40,8 +56,7 @@ class HangmanGame
             puts @dashes.join(" ")
             
             puts "==============================="
-            # binding.pry
-            puts "Start by guessing the word with one letter at a time and click enter"
+            puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word"
             guessing_letters
     end
 
@@ -94,9 +109,7 @@ class HangmanGame
 
     def guessing_letters
         while @attempts < 10 do  
-
             Player.last.words << Word.find_by(word: @random_word.join(""))
-            binding.pry
             letter = gets.chomp.downcase
             if !validation?(letter) && !is_guessed?(letter)
                 right_guess(letter)
@@ -105,15 +118,15 @@ class HangmanGame
             if check_for_dashes?
                 play_again
             else
-                @attempts += 1
+                if @attempts < 9 
+                    @attempts += 1
+                else
+                    puts "Better luck next time, " + Player.last.name + "."
+                    play_again
+                end
             end
-            # if is_guessed?(letter) && @guessed_count >= 15
-            #     binding.pry
-            #     puts "Better luck next time, " + Player.last.name
-            #     play_again
-            # end
-        
         end
+        # play_again
     end
 
 #Check if the player guessed the secret word?
@@ -121,10 +134,8 @@ class HangmanGame
         if !@dashes.include?("-")
             puts "#{@dashes.join("")}"
             update_player
-            # binding.pry
-            # update_word
             puts "Good job " + Player.last.name + ", You Won Hangman!"
-            puts " Your score = #{Player.last.score}"
+            puts " Your total score is #{Player.last.score}"
             puts "/ᐠ｡ꞈ｡ᐟ\\"
             return true
         end
@@ -147,7 +158,7 @@ class HangmanGame
 
 #Check if the player wants to continue the game
     def play_again
-        puts "Please type 'yes' to play again or anything else to exit the game"
+        puts "Please type 'yes' to play again or enter another key to exit the game"
         word = gets.chomp.to_s.downcase
         if word == 'yes'
             hang1 = HangmanGame.new
@@ -165,7 +176,7 @@ class HangmanGame
 
 #Update word -> score
     def update_word
-        binging.pry
+        # binging.pry
         word = Word.find_by(word: @random_word.join(""))
         if word.score == 0
             word.score += 10
@@ -180,13 +191,28 @@ class HangmanGame
         player.save
     end
 
+
+#no word repeat
+    def old_player
+        words = []
+        player = Player.find_by(name: @username)
+        if player
+            words_list = player.words
+            words_list.select do |ele|
+                words << ele.word
+            end
+        else
+            Player.create(name: @username)
+            words = []
+        end
+        words
+    end
 end
+
 
 
 hang = HangmanGame.new
 hang.start
-# game = hang.guessing_letters
-# hang.play_again
 
 #Players count
 total = hang.game_players
