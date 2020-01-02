@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 3) do
 
   create_table "words", force: :cascade do |t|
     t.string "word"
-    t.integer "score", default: 0
   end
 
 end

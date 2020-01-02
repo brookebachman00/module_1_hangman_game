@@ -1,5 +1,8 @@
 require 'pry'
+require_relative './string'
 require_relative '../config/environment'
+
+
 
 class HangmanGame 
 
@@ -34,12 +37,12 @@ class HangmanGame
 
     def start
             puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-            puts "/ᐠ｡ꞈ｡ᐟ\\ Welcome to Hangman! /ᐠ｡ꞈ｡ᐟ\\ " 
+            puts "/ᐠ｡ꞈ｡ᐟ\\ Welcome to Hangman! /ᐠ｡ꞈ｡ᐟ\\ ".blue
             puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-            puts "Where you have to guess the Secret word by putting in letters before the man gets hung!"
+            puts "Where you have to guess the Secret word by putting in letters before the man gets hung!".blue
 
             puts "********************************"
-            puts 'Enter a username:'
+            puts 'Enter a username:'.blue
             @username = gets.chomp
             # binding.pry
             enter_usermane
@@ -50,22 +53,22 @@ class HangmanGame
             puts "********************************"
 
             puts "            "
-            puts "Here's the word:"
+            puts "Here's the word:".blue
             puts "☟ ☟ ☟ ☟ ☟"
             puts "    "
             puts @dashes.join(" ")
             
             puts "==============================="
-            puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word"
+            puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word".blue
             guessing_letters
     end
 
 #Check for player's name
     def enter_usermane
         while @username.length == 0 do
-            puts "!!!!!!!!!!!!You need to enter a Username!!!!!!!!!!!!"
+            puts "!!!!!!!!!!!!You need to enter a Username!!!!!!!!!!!!".red
             puts "   "
-            puts 'Enter a username:'
+            puts 'Enter a username:'.blue
                 @username = gets.chomp
         end
     end
@@ -73,10 +76,10 @@ class HangmanGame
 #Check if the input given by player is a letter (check for alphabet and its length)
     def validation?(letter)
         if !@alpha.include?(letter)
-            puts "#{letter} is not valid!"
+            puts "#{letter} is not valid!".red
             return true
         elsif letter.length > 1
-            puts "please only enter one letter in the alphabet"
+            puts "please only enter one letter in the alphabet".red
             return true
         end
         return false
@@ -85,7 +88,7 @@ class HangmanGame
 #Check if its already guessed by player
     def is_guessed?(letter)
         if @guessed_letters.include?(letter)
-            puts "#{letter.upcase} has already been guessed!"
+            puts "#{letter.upcase} has already been guessed!".red
             @guessed_count += 1
             return true
         else
@@ -121,7 +124,7 @@ class HangmanGame
                 if @attempts < 9 
                     @attempts += 1
                 else
-                    puts "Better luck next time, " + Player.last.name + "."
+                    puts "Better luck next time, " + Player.last.name + ".".red
                     play_again
                 end
             end
@@ -132,10 +135,10 @@ class HangmanGame
 #Check if the player guessed the secret word?
     def check_for_dashes?
         if !@dashes.include?("-")
-            puts "#{@dashes.join("")}"
+            puts "#{@dashes.join("")}".upcase.bold.underline
             update_player
-            puts "Good job " + Player.last.name + ", You Won Hangman!"
-            puts " Your total score is #{Player.last.score}"
+            puts "Good job ".green.bold + Player.last.name + ", You Won Hangman!".green.bold
+            puts " Your total score is #{Player.last.score}".blue
             puts "/ᐠ｡ꞈ｡ᐟ\\"
             return true
         end
@@ -146,25 +149,25 @@ class HangmanGame
 #If the player makes a wrong guess
     def wrong_guess(letter)
         @wrong_guesses << letter
-        puts "Wrong Guess!"
+        puts "Wrong Guess!".red
         puts "#{@wrong_guesses}"
-        puts Hangman.shape[@count]          #Call for Hangman model
+        puts Hangman.shape[@count].red          #Call for Hangman model
         @count += 1
         if @count >= 7
-            puts "Better luck next time, " + Player.last.name
+            puts "Better luck next time, ".magenta + Player.last.name
             play_again
         end
     end
 
 #Check if the player wants to continue the game
     def play_again
-        puts "Please type 'yes' to play again or enter another key to exit the game"
+        puts "Please type 'yes' to play again or enter another key to exit the game".blue
         word = gets.chomp.to_s.downcase
         if word == 'yes'
             hang1 = HangmanGame.new
             hang1.start
         else 
-            puts "Bye, thank you for playing! Have a great day :)"
+            puts "Bye, thank you for playing! Have a great day :)".cyan
             exit
         end
     end
