@@ -1,5 +1,5 @@
 **Hangman**
-Hangman is a command line game. To run the game type *** bundle exec ruby bin/run.rb *** into the command line after navigating to the current directory. This game was written in Ruby and utilizes YAML for saving / loading games.
+Hangman is a command line game. To run the game type ` bundle exec ruby bin/run.rb `into the command line after navigating to the current directory. This game was written in Ruby and utilizes YAML for saving / loading games.
 
 **Game Interface**
 In Hangman when you start playing you will be given a visual on correct letters and wrong letters as well as a hangman graphic itself to let you know how close you are.

@@ -2,15 +2,16 @@ require_relative '../config/environment'
 
 puts "HELLO FRIENDS"
 #Start here
+puts
 hang = HangmanGame.new
-# hang.greetings
+hang.greetings
 
-#Players count
-total = hang.game_players
-puts "Hangman players - #{total}"
+# # #Players count
+# total = hang.game_players
+# puts "Hangman players - #{total}"
 
-##Player with highest score
-hang.top_player
+# # ##Player with highest score
+# hang.top_player
 
-##Player with highest score
-hang.show_words_list('girija')
+# # ##Player with highest score
+# hang.show_words_list('girija')

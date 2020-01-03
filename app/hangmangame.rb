@@ -178,7 +178,6 @@ class HangmanGame
             # puts "Better luck next time, ".magenta  + Player.last.name + ". Its " + "#{@random_word.join("")}".bold.underline
             # puts " Your total score is #{Player.last.score}".brown
             puts "Better luck next time, ".magenta  + @player.name + ". Its " + "#{@random_word.join("")}".bold.underline
-            # binding.pry
             name = Player.find_by(name: @username).score
             puts " Your total score is #{name}".brown
             play_again
@@ -237,7 +236,7 @@ class HangmanGame
 #Show all the words the player has played with
     def show_words_list(given_name)
         if !Player.exists?(name: given_name) 
-            puts "#{given_name.capitalize} haven't played this game yet, make #{name.capitalize} play hangman."
+            puts "#{given_name.capitalize} haven't played this game yet, make #{given_name.capitalize} play hangman."
         else
             name = Player.find_by(name: given_name)
             puts "#{given_name.capitalize} tried the below words:"
