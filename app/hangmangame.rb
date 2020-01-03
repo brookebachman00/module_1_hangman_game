@@ -36,28 +36,18 @@ class HangmanGame
         end
     end
 
-<<<<<<< HEAD
     def greetings
         puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         puts "/ᐠ｡ꞈ｡ᐟ\\ Welcome to Hangman! /ᐠ｡ꞈ｡ᐟ\\ " .blue
         puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         puts "Where you have to guess the Secret word by putting in letters before the man gets hung!".blue
 
-=======
-
-    def greetings
-        puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        puts "/ᐠ｡ꞈ｡ᐟ\\ Welcome to Hangman! /ᐠ｡ꞈ｡ᐟ\\ ".blue
-        puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        puts "Where you have to guess the Secret word by putting in letters before the man gets hung!".blue
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
         puts "********************************"
         puts 'Enter a username:'.blue
         @username = gets.chomp
         start
     end
 
-<<<<<<< HEAD
     def start
         enter_usermane
         random_word
@@ -72,23 +62,6 @@ class HangmanGame
         puts "==============================="
         puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word"
         guessing_letters
-=======
-
-    def start
-            enter_usermane
-            random_word
-            puts "********************************"
-
-            puts "            "
-            puts "Here's the word:".blue
-            puts "☟ ☟ ☟ ☟ ☟"
-            puts "    "
-            puts @dashes.join(" ")
-            
-            puts "==============================="
-            puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word".blue
-            guessing_letters
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
     end
 
 #Check for player's name
@@ -108,11 +81,7 @@ class HangmanGame
             puts "#{letter} is not valid!".red
             @attempts -= 1
             return true
-<<<<<<< HEAD
         elsif letter.length > 1  && letter != 'exit'
-=======
-        elsif letter.length > 1
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
             puts "please only enter one letter in the alphabet".red
             @attempts -= 1
             return true
@@ -125,11 +94,7 @@ class HangmanGame
         if @guessed_letters.include?(letter)
             puts "#{letter.upcase} has already been guessed!".red
             @attempts -= 1
-<<<<<<< HEAD
             @guessed += 1
-=======
-            @guessed_count += 1
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
             return true
         else
             return false
@@ -154,6 +119,9 @@ class HangmanGame
         while @attempts < 10 do  
             Player.last.words << Word.find_by(word: @random_word.join(""))
             letter = gets.chomp.downcase
+            if letter == 'exit'
+                    abort
+            end
             if !validation?(letter) && !is_guessed?(letter)
                 right_guess(letter)
             end
@@ -165,17 +133,10 @@ class HangmanGame
                     @attempts += 1
                 elsif @guessed_count > 10
                     puts "You guesses the same word many times."
-<<<<<<< HEAD
                     puts "Better luck next time, ".brown + Player.last.name + ". Its #{@random_word.join("")}".bold.underline
                     puts " Your total score is #{Player.last.score}"
                 else
                     puts "Better luck next time, ".brown + Player.last.name + ". Its #{@random_word.join("")}".bold.underline
-=======
-                    puts "Better luck next time, ".brown + Player.last.name + ". It's #{@random_word.join("")}".bold.underline
-                    puts " Your total score is #{Player.last.score}"
-                else
-                    puts "Better luck next time, ".brown + Player.last.name + ". It's #{@random_word.join("")}".bold.underline
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
                     puts " Your total score is #{Player.last.score}"
                     play_again
                 end
@@ -188,7 +149,7 @@ class HangmanGame
         if !@dashes.include?("-")
             puts "#{@dashes.join("")}".upcase.bold.underline
             update_player
-            puts "Good job ".green.bold + Player.last.name + ", You Won Hangman!".green.bold
+            puts "Good job ".green.bold + Player.last.name + ", You Won Hangman!".green.bold.blink
             puts " Your total score is #{Player.last.score}".brown
             puts "/ᐠ｡ꞈ｡ᐟ\\"
             return true
@@ -201,17 +162,10 @@ class HangmanGame
     def wrong_guess(letter)
         @wrong_guesses << letter
         puts "Wrong Guess! = > #{@wrong_guesses}".magenta
-<<<<<<< HEAD
         puts Hangman.shape[@count].red               #Call for Hangman model
         @count += 1
         if @count >= 7
             puts "Better luck next time, ".magenta  + Player.last.name + ". Its '#{@random_word.join("")}'".upcase.bold.underline
-=======
-        puts Hangman.shape[@count].red          #Call for Hangman model
-        @count += 1
-        if @count >= 7
-            puts "Better luck next time, ".magenta + Player.last.name + ". It's ".magenta + "#{@random_word.join("")}".upcase.bold.underline
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
             puts " Your total score is #{Player.last.score}".brown
             play_again
         end
@@ -265,6 +219,7 @@ class HangmanGame
         name = Player.find_by(score: score).name
         puts "#{name.upcase} you have the highest score among #{Player.all.count} players.".magenta
     end
+
 end
 
 
@@ -273,17 +228,9 @@ hang = HangmanGame.new
 hang.greetings
 # hang.start
 
-<<<<<<< HEAD
 #Players count
 # total = hang.game_players
 # puts "Hangman players - #{total}"
 
 #Player with highest score
-=======
-# Players count
-# total = hang.game_players
-# puts "Hangman players - #{total}"
-
-# #Player with highest score
->>>>>>> 9e04b31c34210a056b0996296390bbd27c171cfe
 # hang.top_player
