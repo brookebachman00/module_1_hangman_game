@@ -2,9 +2,6 @@ require 'pry'
 require_relative './string'
 require_relative '../config/environment'
 
-
-
-
 class HangmanGame 
 
     attr_accessor :username
@@ -12,12 +9,8 @@ class HangmanGame
 
     def initialize
         @alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-        #@secret_word = ["horse", "birth", "mouse", "apple", "black", "white", "water", "users", "comes", "yummy", "hyper", "cards", "blink", "stick", "every", "using", "trust", "pluck", "trees", "proud"]
         @dashes = ["-","-","-","-","-"]
         @attempts = 0
-        # random = Word.all.sample.word
-        # @random_word = random.split("")
-        # puts "#{@random_word}" #this is for testing purposes
         @wrong_guesses = []
         @guessed_letters = []
         @count = 0
@@ -27,7 +20,6 @@ class HangmanGame
     def random_word
         word_list = old_player
         random = Word.all.sample.word
-        # binding.pryx
         @random_word = random.split("")
         if word_list.length > 0
             while word_list.include?(@random_word.join("")) do
@@ -52,13 +44,11 @@ class HangmanGame
         enter_usermane
         random_word
         puts "********************************"
-
         puts "            "
         puts "Here's the word:".blue
         puts "☟ ☟ ☟ ☟ ☟"
         puts "    "
         puts @dashes.join(" ")
-        
         puts "==============================="
         puts "Start by guessing the word with one letter at a time and click enter, remember you have only 10 attempts to guess the word"
         guessing_letters
@@ -76,7 +66,6 @@ class HangmanGame
 
 #Check if the input given by player is a letter (check for alphabet and its length)
     def validation?(letter)
-        # binding.pry
         if !@alpha.include?(letter)
             puts "#{letter} is not valid!".red
             @attempts -= 1
@@ -94,7 +83,13 @@ class HangmanGame
         if @guessed_letters.include?(letter)
             puts "#{letter.upcase} has already been guessed!".red
             @attempts -= 1
-            @guessed += 1
+            @guessed_count += 1
+            if @guessed_count > 10
+                puts "You guesses the same word many times."
+                puts "Better luck next time, ".brown + Player.last.name + ". Its " +"#{@random_word.join("")}".bold.underline
+                puts " Your total score is #{Player.last.score}"
+                exit
+            end
             return true
         else
             return false
@@ -132,12 +127,12 @@ class HangmanGame
                 if @attempts < 9
                     @attempts += 1
                 elsif @guessed_count > 10
-                    puts "You guesses the same word many times."
-                    puts "Better luck next time, ".brown + Player.last.name + ". Its #{@random_word.join("")}".bold.underline
-                    puts " Your total score is #{Player.last.score}"
+                    puts "You guesses the same word many times.".red
+                    puts "Better luck next time, ".brown + Player.last.name + ". Its " + "#{@random_word.join("")}".bold.underline
+                    puts " Your total score is #{Player.last.score}".brown
                 else
-                    puts "Better luck next time, ".brown + Player.last.name + ". Its #{@random_word.join("")}".bold.underline
-                    puts " Your total score is #{Player.last.score}"
+                    puts "Better luck next time, ".brown + Player.last.name + ". Its " + "#{@random_word.join("")}".bold.underline
+                    puts " Your total score is #{Player.last.score}".brown
                     play_again
                 end
             end
@@ -165,7 +160,7 @@ class HangmanGame
         puts Hangman.shape[@count].red               #Call for Hangman model
         @count += 1
         if @count >= 7
-            puts "Better luck next time, ".magenta  + Player.last.name + ". Its '#{@random_word.join("")}'".upcase.bold.underline
+            puts "Better luck next time, ".magenta  + Player.last.name + ". Its " + "#{@random_word.join("")}".bold.underline
             puts " Your total score is #{Player.last.score}".brown
             play_again
         end
@@ -222,15 +217,13 @@ class HangmanGame
 
 end
 
-
-
 hang = HangmanGame.new
 hang.greetings
 # hang.start
 
-#Players count
+##Players count
 # total = hang.game_players
 # puts "Hangman players - #{total}"
 
-#Player with highest score
+##Player with highest score
 # hang.top_player
